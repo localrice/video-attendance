@@ -34,4 +34,39 @@ def init_db():
 
 
 def add_student(name, roll):
-    connn = get_conn
+    conn = get_conn();
+    cur = conn.cursor()
+
+    #c check if roll already exists
+    cur.execute("SELECT id FROM students WHERE roll = ?", 
+                (roll, ))
+    row = cur.fetchone();
+
+    if row:
+        conn.close()
+        return row[0] # already exists -> return existing id
+    
+    cur.execute(
+        "INSERT INTO students (name, roll) VALUES (?, ?)",
+        (name, roll)
+    )
+
+    student_id = cur.lastrowid
+    conn.commit()
+    conn.close()
+
+    return student_id
+
+# embeddings are stored in raw bytes
+# to restore we gotta specify that it is flaot32
+def add_embedding(student_id, embedding):
+    conn = get_conn()
+    cur = conn.cursor()
+
+    cur.execute(
+        "INSERT INTO embeddings (student_id, embedding) VALUES (?, ?)",
+        (student_id, embedding.tobytes())
+    )
+
+    conn.commit()
+    conn.close()
