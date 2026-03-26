@@ -7,7 +7,6 @@ DB_PATH = "data/app.db"
 def get_conn():
     return sqlite3.connect(DB_PATH)
 
-
 def init_db():
     conn = get_conn()
     cur = conn.cursor()
@@ -31,7 +30,6 @@ def init_db():
 
     conn.commit()
     conn.close()
-
 
 def add_student(name, roll):
     conn = get_conn();
@@ -70,3 +68,32 @@ def add_embedding(student_id, embedding):
 
     conn.commit()
     conn.close()
+
+def load_db():
+    conn = get_conn()
+    cur = conn.cursor()
+
+    cur.execute("""
+    SELECT students.id, students.name, students.roll, embeddings.embedding
+    FROM embeddings
+    JOIN students ON embeddings.student_id = students.id
+    """)
+
+    rows = cur.fetchall()
+    conn.close()
+
+    db = {}
+
+    for student_id, name, roll, emb_blob in rows:
+        emb = np.frombuffer(emb_blob, dtype=np.float32)
+
+        if student_id not in db:
+            db[student_id] = {
+                "name": name,
+                "roll": roll,
+                "embeddings": []
+            }
+
+        db[student_id]["embeddings"].append(emb)
+
+    return db
