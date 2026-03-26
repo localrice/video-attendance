@@ -16,7 +16,7 @@ def init_db():
     CREATE TABLE IF NOT EXISTS students (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT,
-        roll TEXT
+        roll TEXT UNIQUE
     )
     """)
 
@@ -31,3 +31,7 @@ def init_db():
 
     conn.commit()
     conn.close()
+
+
+def add_student(name, roll):
+    connn = get_conn
