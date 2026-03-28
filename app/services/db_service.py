@@ -1,10 +1,12 @@
 import sqlite3
 import numpy as np
+import os
 
 DB_PATH = "data/app.db"
 
 
 def get_conn():
+    os.makedirs("data", exist_ok=True)
     return sqlite3.connect(DB_PATH)
 
 def init_db():
