@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Face Attendance</title>
+  <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css" />
+</head>
+
+<body class="terminal">
+  <div class="container">
+    <br>
+    <nav style="margin-bottom: 20px;">
+      <a href="/" class="btn btn-default btn-ghost">Home</a>
+      <a href="/enroll" class="btn btn-default btn-ghost">Enroll</a>
+      <a href="/attendance" class="btn btn-default btn-ghost">Attendance</a>
+      <a href="/settings" class="btn btn-default">Settings</a>
+    </nav>
+
+    <section style="margin-top: 20px;">
+      <h1>Settings</h1>
+
+      <form method="POST">
+        <fieldset style="padding: 20px; margin-top: 15px;">
+          <legend>Processing Settings</legend>
+
+          <div style="margin-bottom: 18px;">
+            <label>Resize Scale</label>
+            <input name="resize_scale" type="number" value="{{ settings.resize_scale }}" placeholder="0.5" min="0.2" max="1.0" step="0.1">
+            <small>Lower = faster, Higher = more accurate (0.2 - 1.0)</small>
+          </div>
+
+          <div style="margin-bottom: 18px;">
+            <label>Frames per second</label>
+            <input name="process_fps" type="number" value="{{ settings.process_fps }}" placeholder="1" min="1" max="20" step="1">
+            <small>How many frames to process per second</small>
+          </div>
+
+          <div style="margin-bottom: 18px;">
+            <label>Match Threshold</label>
+            <input name="match_threshold" type="number" value="{{ settings.match_threshold }}" placeholder="0.6" min="0.3" max="0.9" step="0.1">
+            <small>Higher = stricter matching (0.3 - 0.9)</small>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <button class="btn btn-default" type="submit">Save Settings</button>
+          </div>
+
+        </fieldset>
+      </form>
+    </section>
+
+    {% if message %}
+    <p>{{ message }}</p>
+    {% endif %}
+  </div>
+</body>
+
+</html>

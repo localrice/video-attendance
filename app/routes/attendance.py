@@ -1,12 +1,13 @@
 from flask import request, render_template
 import cv2
-import numpy as np
 import os
 
 
 from app.services.face_recognition import get_embeddings_from_image, find_best_match
 from app.services.db_service import load_db
+from app.services.settings_service import load_settings
 
+settings = load_settings()
 
 def attendance_route():
     if request.method == "GET":
@@ -34,16 +35,16 @@ def attendance_route():
 
         frame_count += 1
 
-        # process 1 frame per second
-        if frame_count % int(fps) != 0:
+        # this part caps the number of frames to be processed
+        if frame_count % int(fps / settings["process_fps"]) != 0:
             continue
 
-        frame = cv2.resize(frame, (0, 0), fx=0.5, fy=0.5)
+        frame = cv2.resize(frame, (0, 0), fx=settings["resize_scale"], fy=settings["resize_scale"])
 
         embeddings = get_embeddings_from_image(frame)
 
         for emb in embeddings:
-            student_id, score = find_best_match(emb, db)
+            student_id, score = find_best_match(emb, db, threshold=settings["match_threshold"])
 
             if student_id:
                 present.add(student_id)
