@@ -50,13 +50,16 @@ def attendance_route():
 
     cap.release()
 
-    present_list = [
-        {
-            "name": db[s]["name"],
-            "roll": db[s]["roll"]
-        }
-        for s in present
-    ]
+    present_list = sorted(
+        [
+            {
+                "name": db[s]["name"],
+                "roll": db[s]["roll"]
+            }
+            for s in present
+        ],
+        key=lambda x: int(x["roll"]) # sort according to the roll number
+    )
     print(present_list)
     return render_template(
         "attendance.html",
