@@ -4,12 +4,36 @@
 <head>
     <title>Enroll</title>
     <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css" />
+    <style>
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+
+            background: transparent;
+            color: var(--font-color);
+            border: 1px solid var(--font-color);
+
+            padding: 10px 16px;
+            font-family: monospace;
+
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .toast.hide {
+            opacity: 0;
+        }
+    </style>
 </head>
 
 <body class="terminal">
-
     <div class="container">
-
+        {% if message %}
+        <div id="toast" class="toast">
+            {{ message }}
+        </div>
+        {% endif %}
         <section>
             <header>
                 <h1>Enroll Student</h1>
@@ -67,6 +91,16 @@
 
         </section>
     </div>
+
+    <script id="t2">
+        setTimeout(() => {
+            const t = document.getElementById("toast");
+            if (t) {
+                t.classList.add("hide");
+                setTimeout(() => t.remove(), 500);
+            }
+        }, 2000);
+    </script>
 </body>
 
 </html>

@@ -8,8 +8,7 @@ from app.services.db_service import add_student, add_embedding, get_all_students
 def enroll_route():
     if request.method == "GET":
         students = get_all_students()
-        print(students)
-        return render_template("enroll.html", students=students)
+        return render_template("enroll.html", students=students, message=None)
     
     name = request.form["name"]
     roll = request.form["roll"]
@@ -20,7 +19,6 @@ def enroll_route():
     for file in files:
         # read raw file bytes ( compressed image: JPED/PNG)
         file_bytes = np.frombuffer(file.read(), np.uint8)
-        print(file_bytes)
         # decode into image array (Height x Width x 3 color channels, uint8)
         img = cv2.imdecode(file_bytes, cv2.IMREAD_COLOR)
         # print(img)
@@ -32,4 +30,9 @@ def enroll_route():
         for emb in embeddings:
             add_embedding(student_id, emb)
 
-    return f"{name} enrolled succesfully"
+    students = get_all_students()
+    return render_template(
+        "enroll.html",
+        students=students,
+        message=f"{name} enrolled successfully"
+    )
