@@ -8,7 +8,7 @@ from app.services.db_service import add_student, add_embedding, get_all_students
 def enroll_route():
     if request.method == "GET":
         students = get_all_students()
-        return render_template("enroll.html", students=students, message=None)
+        return render_template("enroll.html", students=students, message=None,total=len(students))
     
     name = request.form["name"]
     roll = request.form["roll"]
@@ -34,5 +34,6 @@ def enroll_route():
     return render_template(
         "enroll.html",
         students=students,
-        message=f"{name} enrolled successfully"
+        message=f"{name} enrolled successfully",
+        total=len(students)
     )
