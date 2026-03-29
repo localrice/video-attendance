@@ -3,12 +3,13 @@ import cv2
 import numpy as np
 
 from app.services.face_recognition import get_embeddings_from_image
-from app.services.db_service import add_student, add_embedding
-
+from app.services.db_service import add_student, add_embedding, get_all_students
 
 def enroll_route():
     if request.method == "GET":
-        return render_template("enroll.html")
+        students = get_all_students()
+        print(students)
+        return render_template("enroll.html", students=students)
     
     name = request.form["name"]
     roll = request.form["roll"]

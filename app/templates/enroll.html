@@ -1,24 +1,72 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>enroll student</title>
+    <title>Enroll</title>
+    <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css" />
 </head>
-<body>
 
-<h2>enroll student</h2>
+<body class="terminal">
 
-<form method="POST" enctype="multipart/form-data">
-    <label>name:</label><br>
-    <input type="text" name="name" required><br><br>
+    <div class="container">
 
-    <label>roll:</label><br>
-    <input type="text" name="roll" required><br><br>
+        <section>
+            <header>
+                <h1>Enroll Student</h1>
+            </header>
 
-    <label>uplaod passport photo:</label><br>
-    <input type="file" name="images" multiple required><br><br>
+            <form method="POST" enctype="multipart/form-data">
+                <fieldset>
+                    <legend>Student Details</legend>
 
-    <button type="submit">Enroll</button>
-</form>
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input id="name" name="name" type="text" required minlength="2" placeholder="Enter name">
+                    </div>
 
+                    <div class="form-group">
+                        <label for="roll">Roll Number:</label>
+                        <input id="roll" name="roll" type="text" required placeholder="Enter roll">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="images">Upload Images:</label>
+                        <input id="images" name="images" type="file" multiple required>
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-default" type="submit">Enroll</button>
+                    </div>
+
+                </fieldset>
+            </form>
+        </section>
+
+        <hr>
+        <section>
+            <h1>Students</h1>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Roll</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for id, name, roll in students %}
+                    <tr>
+                        <td>{{ id }}</td>
+                        <td>{{ name }}</td>
+                        <td>{{ roll }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </section>
+    </div>
 </body>
+
 </html>
