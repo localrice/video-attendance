@@ -26,9 +26,14 @@
         }
     </style>
 </head>
-
 <body class="terminal">
     <div class="container">
+        <br>
+        <nav style="margin-bottom: 20px;">
+            <a href="/" class="btn btn-default btn-ghost">Home</a>
+            <a href="/enroll" class="btn btn-default">Enroll</a>
+            <a href="/attendance" class="btn btn-default btn-ghost">Attendance</a>
+        </nav>
         {% if message %}
         <div id="toast" class="toast">
             {{ message }}
