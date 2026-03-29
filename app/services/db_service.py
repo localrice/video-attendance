@@ -99,3 +99,13 @@ def load_db():
         db[student_id]["embeddings"].append(emb)
 
     return db
+
+def get_all_students():
+    conn = get_conn()
+    cur = conn.cursor()
+
+    cur.execute("SELECT id, name, roll FROM students")
+    rows = cur.fetchall()
+
+    conn.close()
+    return rows
