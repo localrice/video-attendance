@@ -10,7 +10,7 @@ from app.services.db_service import load_db
 
 def attendance_route():
     if request.method == "GET":
-        return render_template("attendance.html")
+        return render_template("attendance.html", present_list=None)
 
 
     file = request.files["video"]
@@ -50,11 +50,16 @@ def attendance_route():
 
     cap.release()
 
-    # convert IDs to names
-    present_list = []
-
-    for student_id in present:
-        student = db[student_id]
-        present_list.append(f"{student['name']} ({student['roll']})")
-
-    return "<br>".join(present_list)
+    present_list = [
+        {
+            "name": db[s]["name"],
+            "roll": db[s]["roll"]
+        }
+        for s in present
+    ]
+    print(present_list)
+    return render_template(
+        "attendance.html",
+        present_list=present_list,
+        total=len(present_list)
+    )

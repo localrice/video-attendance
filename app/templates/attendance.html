@@ -1,6 +1,60 @@
-<h2>Upload Video</h2>
+<!DOCTYPE html>
+<html>
 
-<form method="POST" enctype="multipart/form-data">
-  <input type="file" name="video" required><br><br>
-  <button type="submit">Upload</button>
-</form>
+<head>
+  <title>Attendance</title>
+  <link rel="stylesheet" href="https://unpkg.com/terminal.css@0.7.4/dist/terminal.min.css" />
+</head>
+
+<body class="terminal">
+  <div class="container">
+
+    <h1>Take Attendance</h1>
+
+    <section>
+      <form method="POST" enctype="multipart/form-data">
+        <fieldset>
+          <legend>Upload Video</legend>
+
+          <div class="form-group">
+            <label for="video">Video File:</label>
+            <input type="file" name="video" required>
+          </div>
+
+          <button class="btn btn-default" type="submit">Process</button>
+        </fieldset>
+      </form>
+    </section>
+
+    <hr>
+
+    {% if present_list %}
+    <section>
+      <h2>Present Students</h2>
+
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Roll</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {% for s in present_list %}
+          <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ s.name }}</td>
+            <td>{{ s.roll }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+    {% endif %}
+
+  </div>
+</body>
+
+</html>
